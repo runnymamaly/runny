@@ -2,7 +2,7 @@
 set -e
 
 if [ -z "$UUID" ]; then
-  echo "❌ UUID "
+  echo "❌ UUID را در Variables تعریف کنید!"
   exit 1
 fi
 
@@ -16,7 +16,7 @@ cat > /etc/xray/config.json << EOF
     "listen": "127.0.0.1",
     "protocol": "vless",
     "settings": {
-      "clients": [{"id": "${UUID}"}],
+      "clients": [{"id": "${UUID}"}],   # flow رو حذف کن
       "decryption": "none"
     },
     "streamSettings": {
@@ -28,7 +28,7 @@ cat > /etc/xray/config.json << EOF
 }
 EOF
 
-echo "Path: ${WSPATH}"
+echo "✅ دمو AI راه‌اندازی شد | Path: ${WSPATH}"
 
 cat > /tmp/nginx.conf << EOF
 pid /tmp/nginx.pid;
@@ -64,14 +64,14 @@ http {
             proxy_set_header X-Real-IP \$remote_addr;
             proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
             proxy_set_header X-Forwarded-Proto \$scheme;
-            proxy_set_header Origin "https://chat.openai.com";
+            proxy_set_header Origin "https://chat.openai.com";  # برای obfuscation اضافی
             proxy_read_timeout 86400;
         }
     }
 }
 EOF
 
-echo "nginx.conf --> WSPATH: ${WSPATH}"
+echo "nginx.conf ساخته شد با WSPATH: ${WSPATH}"
 grep "location" /tmp/nginx.conf
 
 ai-core run -config /etc/xray/config.json &
