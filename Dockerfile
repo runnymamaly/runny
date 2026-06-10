@@ -26,5 +26,7 @@ RUN chmod +x /entrypoint.sh
 
 USER xray
 EXPOSE 7860
+EXPOSE 443
+EXPOSE 80
 HEALTHCHECK --interval=30s --timeout=5s CMD wget --no-verbose --tries=1 --spider http://127.0.0.1:7860 || exit 1
 ENTRYPOINT ["/entrypoint.sh"]
