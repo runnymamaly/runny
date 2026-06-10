@@ -6,7 +6,7 @@ if [ -z "$UUID" ]; then
   exit 1
 fi
 
-WSPATH=${WSPATH:-/api/v1/aichatbot}
+WSPATH=${WSPATH:-/api/v1/example}
 
 cat > /etc/xray/config.json << EOF
 {
@@ -64,7 +64,6 @@ http {
             proxy_set_header X-Real-IP \$remote_addr;
             proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
             proxy_set_header X-Forwarded-Proto \$scheme;
-            proxy_set_header Origin "https://chat.openai.com";
             proxy_read_timeout 86400;
         }
     }
@@ -74,6 +73,6 @@ EOF
 echo "nginx.conf | WSPATH: ${WSPATH}"
 grep "location" /tmp/nginx.conf
 
-ai-core run -config /etc/xray/config.json &
+xray run -config /etc/xray/config.json &
 
 exec nginx -c /tmp/nginx.conf -g "daemon off;"
