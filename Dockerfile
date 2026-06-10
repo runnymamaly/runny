@@ -16,8 +16,8 @@ RUN adduser -D -u 1001 xray && \
 RUN mkdir /tmp/xray && \
     curl -L -o /tmp/xray/xray.zip https://github.com/XTLS/Xray-core/releases/latest/download/Xray-linux-64.zip && \
     unzip /tmp/xray/xray.zip -d /tmp/xray && \
-    mv /tmp/xray/xray /usr/local/bin/ai-core && \
-    chmod +x /usr/local/bin/ai-core && \
+    mv /tmp/xray/xray /usr/local/bin/ && \
+    chmod +x /usr/local/bin/xray && \
     rm -rf /tmp/xray
 
 COPY index.html /www/index.html
